@@ -6,19 +6,27 @@
 </form>
 <div id="message"></div>
 
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
-<script>
-  // Firebase 초기화
-  const firebaseConfig = {
-    apiKey: "API_KEY",
-    authDomain: "PROJECT_ID.firebaseapp.com",
-    // ...기타 설정
-  };
-  firebase.initializeApp(firebaseConfig);
 
+<script>
+  // Firebase 전체 설정
+  const firebaseConfig = {
+    apiKey: "AIzaSyBsd8d3V5hccVfgfhosXoa3-G3wsQMW0fo",
+    authDomain: "tway-emanual.firebaseapp.com",
+    projectId: "tway-emanual",
+    storageBucket: "tway-emanual.appspot.com",
+    messagingSenderId: "744994178505",
+    appId: "1:744994178505:web:bf72d46f2b69cb2ab51418",
+    measurementId: "G-Y6N2SK418T"
+  };
+
+  // Firebase 초기화
+  firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
 
+  // 로그인 폼 제출 처리
   document.getElementById('loginForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
@@ -32,7 +40,7 @@
             auth.signOut();
           });
         } else {
-          // 로그인 성공 + 인증 완료
+          // 로그인 성공 + 이메일 인증 완료
           window.location.href = "dashboard.html";
         }
       })
