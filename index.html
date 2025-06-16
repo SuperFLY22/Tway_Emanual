@@ -1,0 +1,43 @@
+<!-- index.html -->
+<form id="loginForm">
+  <input type="email" id="email" placeholder="이메일 입력" required>
+  <input type="password" id="password" placeholder="비밀번호 입력" required>
+  <button type="submit">로그인</button>
+</form>
+<div id="message"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
+<script>
+  // Firebase 초기화
+  const firebaseConfig = {
+    apiKey: "API_KEY",
+    authDomain: "PROJECT_ID.firebaseapp.com",
+    // ...기타 설정
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
+
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const pw = document.getElementById("password").value;
+
+    auth.signInWithEmailAndPassword(email, pw)
+      .then((userCredential) => {
+        if (!userCredential.user.emailVerified) {
+          userCredential.user.sendEmailVerification().then(() => {
+            document.getElementById("message").innerText = "이메일 인증 링크가 발송되었습니다. 인증 후 다시 로그인하세요.";
+            auth.signOut();
+          });
+        } else {
+          // 로그인 성공 + 인증 완료
+          window.location.href = "dashboard.html";
+        }
+      })
+      .catch((error) => {
+        document.getElementById("message").innerText = "로그인 실패: " + error.message;
+      });
+  });
+</script>
